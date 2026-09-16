@@ -64,6 +64,121 @@ a:hover {
 
 /* ===== ПРИЖИМАЕМ ФУТЕР К НИЗУ ===== */
 /* Это понадобится Даниилу (задача 9) */
+/* КТО УДАЛИТ, ТОТ ЛОХ ) */
+.footer {
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-inverse);
+    padding: var(--space-2xl) 0 var(--space-lg);
+    margin-top: var(--space-2xl);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--space-2xl);
+}
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-title {
+    color: var(--color-text-inverse);
+    font-family: var(--font-heading);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-md);
+}
+
+.footer-description {
+    color: var(--color-primary-light);
+    max-width: 350px;
+    margin-bottom: 0;
+}
+
+.footer-contacts {
+    font-style: normal;
+}
+
+.footer-contacts p {
+    color: var(--color-text-inverse);
+    margin-bottom: var(--space-sm);
+}
+
+.footer-contacts strong {
+    font-weight: var(--font-weight-medium);
+}
+
+.footer a {
+    color: var(--color-primary-light);
+    text-decoration: none;
+    transition:
+        color var(--transition-fast),
+        opacity var(--transition-fast);
+}
+
+.footer a:hover {
+    color: var(--color-accent);
+}
+
+.footer a:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
+.footer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.footer-nav a {
+    width: fit-content;
+}
+
+.footer-bottom {
+    border-top: 1px solid var(--color-border);
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-md);
+    text-align: center;
+}
+
+.footer-bottom p {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    margin: 0;
+}
+
+/* ===== АДАПТИВНОСТЬ FOOTER ===== */
+
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+    }
+
+    .footer {
+        padding-top: var(--space-xl);
+    }
+
+    .footer-bottom {
+        margin-top: var(--space-xl);
+    }
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
 html, body {
     height: 100%;
 }
