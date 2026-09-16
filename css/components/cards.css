@@ -1,0 +1,53 @@
+/* css/components/cards.css */
+
+.course-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%; /* Чтобы карточки в сетке были одной высоты */
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Картинка сверху */
+.course-card__image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover; /* Чтобы картинка не искажалась */
+}
+
+/* Контентная часть */
+.course-card__content {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    flex-grow: 1; /* Растягивает контент, чтобы цена всегда была внизу */
+}
+
+.course-card__title {
+    margin: 0 0 10px 0;
+    font-size: 1.25rem;
+    color: #333333;
+}
+
+.course-card__text {
+    margin: 0 0 20px 0;
+    font-size: 1rem;
+    color: #666666;
+    line-height: 1.5;
+    flex-grow: 1; /* Занимает свободное место */
+}
+
+.course-card__price {
+    margin-top: auto; /* Прижимает цену к самому низу */
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
