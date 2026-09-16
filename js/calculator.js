@@ -1,104 +1,127 @@
-// Получаем элементы
-        const basePriceInput = document.getElementById('basePrice');
-        const durationInput = document.getElementById('duration');
-        const sessionsInput = document.getElementById('sessions');
-        const tariffSelect = document.getElementById('tariff');
-        const totalPriceElement = document.getElementById('totalPrice');
-        const calculationDetailsElement = document.getElementById('calculationDetails');
+/**
+ * Калькулятор стоимости обучения
+ * Формула: базовая_цена_за_минуту × продолжительность × кол-во_занятий × коэффициент_тарифа
+ */
 
-        // Функция форматирования числа с пробелами (1 000 000)
-        function formatNumber(num) {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-        }
+(function () {
+    'use strict';
 
-        // Основная функция расчета
-        function calculateTotal() {
-            // Получаем значения
-            const basePrice = parseFloat(basePriceInput.value) || 0;
-            const duration = parseFloat(durationInput.value) || 0;
-            const sessions = parseFloat(sessionsInput.value) || 0;
-            const tariff = parseFloat(tariffSelect.value) || 1;
+    // Базовая цена за минуту (руб)
+    const BASE_PRICE_PER_MINUTE = 30;
 
-            // Рассчитываем
-            const pricePerSession = basePrice * duration;
-            const totalWithoutTariff = pricePerSession * sessions;
-            const totalWithTariff = totalWithoutTariff * tariff;
+    // DOM-элементы
+    const form = document.getElementById('calc-form');
+    const lessonsCountInput = document.getElementById('lessons-count');
+    const lessonDurationSelect = document.getElementById('lesson-duration');
+    const tariffRadios = document.querySelectorAll('input[name="tariff"]');
+    const totalPriceElement = document.getElementById('total-price');
 
-            // Определяем название тарифа
-            let tariffName = '';
-            switch(tariff) {
-                case 1.0: tariffName = 'Выгодный'; break;
-                case 1.2: tariffName = 'Комфортный'; break;
-                case 1.5: tariffName = 'Усиленный'; break;
+    /**
+     * Получает выбранный коэффициент тарифа
+     * @returns {number}
+     */
+    function getTariffCoefficient() {
+        const selected = document.querySelector('input[name="tariff"]:checked');
+        return selected ? parseFloat(selected.value) : 1.0;
+    }
+
+    /**
+     * Получает количество занятий
+     * @returns {number}
+     */
+    function getLessonsCount() {
+        const value = parseInt(lessonsCountInput.value, 10);
+        return isNaN(value) || value < 1 ? 1 : value;
+    }
+
+    /**
+     * Получает длительность занятия в минутах
+     * @returns {number}
+     */
+    function getLessonDuration() {
+        const value = parseInt(lessonDurationSelect.value, 10);
+        return isNaN(value) || value < 1 ? 60 : value;
+    }
+
+    /**
+     * Форматирует число с пробелами (1000 → 1 000)
+     * @param {number} num
+     * @returns {string}
+     */
+    function formatNumber(num) {
+        return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    }
+
+    /**
+     * Основной расчёт стоимости
+     */
+    function calculateTotal() {
+        const lessonsCount = getLessonsCount();
+        const duration = getLessonDuration();
+        const tariff = getTariffCoefficient();
+
+        const total = BASE_PRICE_PER_MINUTE * duration * lessonsCount * tariff;
+
+        // Анимация изменения числа
+        animateValue(totalPriceElement, total, 400);
+    }
+
+    /**
+     * Анимация плавного изменения числа
+     * @param {HTMLElement} element
+     * @param {number} endValue
+     * @param {number} duration - длительность анимации в мс
+     */
+    function animateValue(element, endValue, duration) {
+        const startValue = parseInt(element.textContent.replace(/\s/g, ''), 10) || 0;
+        const range = endValue - startValue;
+        const startTime = performance.now();
+
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // Функция плавности (ease-out)
+            const easeOut = 1 - Math.pow(1 - progress, 3);
+            const currentValue = startValue + range * easeOut;
+
+            element.textContent = formatNumber(currentValue);
+
+            if (progress < 1) {
+                requestAnimationFrame(update);
             }
-
-            // Обновляем итоговую сумму с анимацией
-            animateValue(totalPriceElement, parseInt(totalPriceElement.textContent.replace(/\s/g, '')), Math.round(totalWithTariff), 300);
-
-            // Обновляем детали расчета
-            calculationDetailsElement.innerHTML = `
-                <div class="detail-row">
-                    <span>Цена за минуту:</span>
-                    <span>${formatNumber(basePrice)} ₽</span>
-                </div>
-                <div class="detail-row">
-                    <span>Продолжительность:</span>
-                    <span>${duration} мин</span>
-                </div>
-                <div class="detail-row">
-                    <span>Стоимость занятия:</span>
-                    <span>${formatNumber(pricePerSession)} ₽</span>
-                </div>
-                <div class="detail-row">
-                    <span>Количество занятий:</span>
-                    <span>× ${sessions}</span>
-                </div>
-                <div class="detail-row">
-                    <span>Без тарифа:</span>
-                    <span>${formatNumber(totalWithoutTariff)} ₽</span>
-                </div>
-                <div class="detail-row">
-                    <span>Тариф "${tariffName}":</span>
-                    <span>×${tariff}</span>
-                </div>
-                <div class="detail-row total">
-                    <span>ИТОГО:</span>
-                    <span>${formatNumber(Math.round(totalWithTariff))} ₽</span>
-                </div>
-            `;
         }
 
-        // Функция анимации числа
-        function animateValue(element, start, end, duration) {
-            const range = end - start;
-            const minTimer = 50;
-            let stepTime = Math.abs(Math.floor(duration / (range / 100)));
-            stepTime = Math.max(stepTime, minTimer);
-            
-            let startTime = new Date().getTime();
-            let endTime = startTime + duration;
-            let timer;
-            
-            function run() {
-                let now = new Date().getTime();
-                let remaining = Math.max((endTime - now) / duration, 0);
-                let value = Math.round(end - (remaining * range));
-                element.innerHTML = formatNumber(value) + '<span class="result-currency">₽</span>';
-                if (value == end) {
-                    clearInterval(timer);
-                }
-            }
-            
-            timer = setInterval(run, stepTime);
-            run();
-        }
+        requestAnimationFrame(update);
+    }
 
-        // Добавляем слушатели событий на все поля
-        basePriceInput.addEventListener('input', calculateTotal);
-        durationInput.addEventListener('input', calculateTotal);
-        sessionsInput.addEventListener('input', calculateTotal);
-        tariffSelect.addEventListener('change', calculateTotal);
+    /**
+     * Навешивает обработчики событий на все поля формы
+     */
+    function bindEvents() {
+        // Изменение количества занятий
+        lessonsCountInput.addEventListener('input', calculateTotal);
 
-        // Первоначальный расчет при загрузке
+        // Изменение длительности
+        lessonDurationSelect.addEventListener('change', calculateTotal);
+
+        // Изменение тарифа
+        tariffRadios.forEach(radio => {
+            radio.addEventListener('change', calculateTotal);
+        });
+    }
+
+    // Инициализация при загрузке
+    function init() {
+        bindEvents();
         calculateTotal();
+    }
 
+    // Запуск после полной загрузки DOM
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+})();
