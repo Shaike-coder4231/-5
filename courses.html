@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/calculator.css">
 </head>
 
 <body>
@@ -95,6 +96,41 @@
                         </div>
                     </article>
 
+                </div>
+                <!-- КАЛЬКУЛЯТОР ЧАСТЬ №11 -->
+                <div class="calculator">
+                    <h2 class="calculator__title">Рассчитать стоимость обучения</h2>
+                    
+                    <form class="calculator__form" id="calc-form">
+                        <!-- Поле: Количество занятий -->
+                        <div class="calculator__field">
+                            <label for="lessons-count">Количество занятий:</label>
+                            <input type="number" id="lessons-count" name="lessons-count" value="1" min="1" step="1">
+                        </div>
+
+                        <!-- Поле: Длительность -->
+                        <div class="calculator__field">
+                            <label for="lesson-duration">Длительность занятия:</label>
+                            <select id="lesson-duration" name="lesson-duration">
+                                <option value="45">45 минут</option>
+                                <option value="60" selected>60 минут</option>
+                                <option value="90">90 минут</option>
+                            </select>
+                        </div>
+
+                        <!-- Поле: Тариф (радиокнопки) -->
+                        <div class="calculator__field">
+                            <span>Тариф:</span>
+                            <label> <input type="radio" name="tariff" value="1.0" checked> Выгодный </label>
+                            <label> <input type="radio" name="tariff" value="1.2"> Комфортный </label>
+                            <label> <input type="radio" name="tariff" value="1.5"> Усиленный </label>
+                        </div>
+                    </form>
+
+                    <!-- Блок вывода результата (сюда будет писать Валерий №12) -->
+                    <div class="calculator__result">
+                        Итоговая стоимость: <span id="total-price">0</span> ₽
+                    </div>
                 </div>
             </div>
         </section>
