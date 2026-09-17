@@ -3,115 +3,331 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Запись на урок — Языковая школа</title>
+    <title>Запись на курс - Языковая школа</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
 
-    <!-- Шрифты -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+        body {
+            background-color: #f5f7fa;
+            padding: 40px 20px;
+        }
 
-    <!-- Дизайн-система (задача 2, Аксенов) -->
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/main.css">
+        .booking-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
 
-    <!-- Компоненты -->
-    <link rel="stylesheet" href="css/components/buttons.css">  <!-- Алексей, задача 3 -->
-    <link rel="stylesheet" href="css/components/forms.css">    <!-- Анкудович, задача 4 -->
+        .booking-title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            color: #34495e;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e6ed;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .form-input.error {
+            border-color: #e74c3c;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .submit-btn:not(:disabled):hover {
+            background-color: #2980b9;
+        }
+    </style>
 </head>
 <body>
-
-    <!-- <header> — Алексей (задача 3) -->
-
-    <main>
-        <section class="booking">
-            <div class="container">
-                <h1 class="booking__title">Запись на бесплатный урок</h1>
-                <p class="booking__subtitle">
-                    Заполните форму, и мы свяжемся с вами в течение 15 минут.
-                </p>
-
-                <!-- 
-                    ЗДЕСЬ АРИНА (задача 13) ВСТАВИТ ФОРМУ:
-                    
-                    <form class="booking-form" id="bookingForm" novalidate>
-                        <input type="text" name="name" placeholder="ФИО" required>
-                        <input type="tel" name="phone" placeholder="+7(___)___-__-__" required>
-                        <input type="email" name="email" placeholder="Email" required>
-                        <select name="course">
-                            <option value="">Выберите курс</option>
-                            ...
-                        </select>
-                        <label>
-                            <input type="checkbox" name="agreement" required>
-                            Согласен на обработку персональных данных
-                        </label>
-                        <button type="submit" class="btn btn--primary" disabled>
-                            Записаться
-                        </button>
-                    </form>
-                -->
-
+    <div class="booking-container">
+        <h2 class="booking-title">Записаться на курс</h2>
+        <form id="bookingForm">
+            <!-- Поле ФИО -->
+            <div class="form-group">
+                <label class="form-label" for="fullName">ФИО *</label>
+                <input 
+                    type="text" 
+                    id="fullName" 
+                    class="form-input" 
+                    required
+                    placeholder="Иванов Иван Иванович"
+                >
+                <div class="error-message" id="fullNameError">Введите корректное ФИО (минимум 3 символа)</div>
             </div>
-        </section>
-    </main>
 
-    <!-- <footer> — Даниил (задача 9) -->
-<!-- кто удалит тот лох (менять текст можжно)-->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3 class="footer-title">Название сайта</h3>
-                    <p class="footer-description">
-                        Современная языковая школа для изучения иностранных языков. Имба ЖЕСТЬ. Не верите?? Запишитесь, твари!
-                    </p>
-                </div>
-                <div class="footer-column">
-                    <h3 class="footer-title">Контакты</h3>
-    
-                    <address class="footer-contacts">
-                        <p>
-                            <strong>Адрес:</strong><br>
-                            г. Москва, ул. Примерная, д. 10
-                        </p>
-    
-                        <p>
-                            <strong>Телефон:</strong><br>
-                            <a href="tel:+88005553535">
-                                +7 (495) 123-45-67
-                            </a>
-                        </p>
-                        <p>
-                            <strong>Email:</strong><br>
-                            <a href="mailto:Mucixmatho@ya.ru">
-                                Mucixmatho@ya.ru
-                            </a>
-                        </p>
-                    </address>
-                </div>
-    
-                <div class="footer-column">
-                    <h3 class="footer-title">Навигация</h3>
-                    <nav class="footer-nav" aria-label="Навигация в подвале">
-                        <a href="index.html">Главная</a>
-                        <a href="courses.html">Курсы</a>
-                        <a href="booking.html">Записаться на урок</a>
-                    </nav>
-                </div>
+            <!-- Поле Телефон -->
+            <div class="form-group">
+                <label class="form-label" for="phone">Телефон *</label>
+                <input 
+                    type="tel" 
+                    id="phone" 
+                    class="form-input" 
+                    required
+                    placeholder="+7(XXX)-XXX-XX-XX"
+                >
+                <div class="error-message" id="phoneError">Введите телефон в формате +7(XXX)-XXX-XX-XX</div>
             </div>
-            <div class="footer-bottom">
-                <p>
-                    &copy; 2026 ??Название сайта??. Все права защищены.
-                </p>
-            </div>
-        </div>
-    </footer>
-    <!-- 
-        JS-скрипты:
-        validation.js подключает Тихон (задача 14)
-    -->
-    <!-- <script src="js/validation.js"></script> -->
 
+            <!-- Поле Email -->
+            <div class="form-group">
+                <label class="form-label" for="email">Email</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    class="form-input" 
+                    placeholder="example@mail.ru"
+                >
+                <div class="error-message" id="emailError">Введите корректный адрес электронной почты</div>
+            </div>
+
+            <!-- Выбор курса -->
+            <div class="form-group">
+                <label class="form-label" for="course">Курс *</label>
+                <select id="course" class="form-input" required>
+                    <option value="">Выберите курс</option>
+                    <option value="english-basic">Английский для начинающих</option>
+                    <option value="english-advanced">Английский продвинутый</option>
+                    <option value="german-basic">Немецкий для начинающих</option>
+                    <option value="french-basic">Французский для начинающих</option>
+                    <option value="spanish-basic">Испанский для начинающих</option>
+                </select>
+                <div class="error-message" id="courseError">Выберите курс</div>
+            </div>
+
+            <!-- Чекбокс согласия -->
+            <div class="form-group checkbox-group">
+                <input 
+                    type="checkbox" 
+                    id="privacyAgree" 
+                    class="form-checkbox" 
+                    required
+                >
+                <label class="form-label" for="privacyAgree">
+                    Согласен на обработку персональных данных *
+                </label>
+            </div>
+
+            <!-- Кнопка отправки -->
+            <button type="submit" class="submit-btn" disabled>Записаться</button>
+        </form>
+    </div>
+
+    <script>
+        // Получаем элементы формы
+        const form = document.getElementById('bookingForm');
+        const phoneInput = document.getElementById('phone');
+        const privacyCheckbox = document.getElementById('privacyAgree');
+        const submitBtn = document.querySelector('.submit-btn');
+        const formInputs = form.querySelectorAll('.form-input[required]');
+        const emailInput = document.getElementById('email');
+
+        // Маска для телефона
+        phoneInput.addEventListener('input', function(e) {
+            // Оставляем только цифры
+            let value = e.target.value.replace(/\D/g, '');
+            // Форматируем под нужный шаблон
+            let formattedValue = '';
+
+            if (value.startsWith('8')) {
+                value = value.replace('8', '7');
+            } else if (!value.startsWith('7')) {
+                value = '7' + value;
+            }
+
+            // Строим маску
+            if (value.length >= 1) formattedValue = `+${value[0]}`;
+            if (value.length >= 2) formattedValue += `(${value.substring(1, 4)}`;
+            if (value.length >= 4) formattedValue += `)-${value.substring(4, 7)}`;
+            if (value.length >= 7) formattedValue += `-${value.substring(7, 9)}`;
+            if (value.length >= 9) formattedValue += `-${value.substring(9, 11)}`;
+
+            // Ограничиваем длину
+            if (formattedValue.length > 18) {
+                formattedValue = formattedValue.substring(0, 18);
+            }
+
+            e.target.value = formattedValue;
+        });
+
+        // Активация кнопки при согласии на обработку данных
+        privacyCheckbox.addEventListener('change', function() {
+            submitBtn.disabled = !this.checked;
+        });
+
+        // Валидация Email
+        function validateEmail(email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+            return regex.test(email);
+        }
+
+        // Универсальная функция для показа ошибок
+        function showError(input, errorElementId, message) {
+            input.classList.add('error');
+            const errorElement = document.getElementById(errorElementId);
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        function hideError(input, errorElementId) {
+            input.classList.remove('error');
+            const errorElement = document.getElementById(errorElementId);
+            errorElement.style.display = 'none';
+        }
+
+        // Валидация полей при вводе
+        formInputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                switch(this.id) {
+                    case 'fullName':
+                        if (this.value.trim().length < 3) {
+                            showError(this, 'fullNameError', 'Введите корректное ФИО (минимум 3 символа)');
+                        } else {
+                            hideError(this, 'fullNameError');
+                        }
+                        break;
+                    case 'phone':
+                        if (this.value.length !== 18) {
+                            showError(this, 'phoneError', 'Введите телефон в формате +7(XXX)-XXX-XX-XX');
+                        } else {
+                            hideError(this, 'phoneError');
+                        }
+                        break;
+                    case 'course':
+                        if (!this.value) {
+                            showError(this, 'courseError', 'Выберите курс');
+                        } else {
+                            hideError(this, 'courseError');
+                        }
+                        break;
+                }
+            });
+        });
+
+        // Валидация Email при вводе
+        emailInput.addEventListener('blur', function() {
+            if (this.value && !validateEmail(this.value)) {
+                showError(this, 'emailError', 'Введите корректный адрес электронной почты');
+            } else {
+                hideError(this, 'emailError');
+            }
+        });
+
+        // Общая валидация при отправке формы
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            let isValid = true;
+
+            // Проверка ФИО
+            if (fullName.value.trim().length < 3) {
+                showError(fullName, 'fullNameError', 'Введите корректное ФИО (минимум 3 символа)');
+                isValid = false;
+            } else {
+                hideError(fullName, 'fullNameError');
+            }
+
+            // Проверка телефона
+            if (phone.value.length !== 18) {
+                showError(phone, 'phoneError', 'Введите телефон в формате +7(XXX)-XXX-XX-XX');
+                isValid = false;
+            } else {
+                hideError(phone, 'phoneError');
+            }
+
+            // Проверка курса
+            if (!course.value) {
+                showError(course, 'courseError', 'Выберите курс');
+                isValid = false;
+            } else {
+                hideError(course, 'courseError');
+            }
+
+            // Проверка Email (если заполнен)
+            if (email.value && !validateEmail(email.value)) {
+                showError(email, 'emailError', 'Введите корректный адрес электронной почты');
+                isValid = false;
+            } else {
+                hideError(email, 'emailError');
+            }
+
+            // Проверка согласия
+            if (!privacyCheckbox.checked) {
+                submitBtn.disabled = true;
+                isValid = false;
+            }
+
+            // Если всё корректно - отправляем форму
+            if (isValid) {
+                alert('Запись успешно отправлена! Мы скоро свяжемся с вами.');
+                form.reset();
+                submitBtn.disabled = true;
+            }
+        });
+    </script>
 </body>
 </html>
